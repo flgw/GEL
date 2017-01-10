@@ -11,12 +11,10 @@
 #ifndef __MESHEDIT_RENDERER_H__
 #define __MESHEDIT_RENDERER_H__
 
-#include "../CGLA/Vec2d.h"
-#include "../GL/glew.h"
-#include "../GLGraphics/draw.h"
-#include "../GLGraphics/Console.h"
+#include <CGLA/Vec2d.h>
+#include <CGLA/Vec4d.h>
+#include <HMesh/Manifold.h>
 #include "../GLGraphics/IDBufferWireFrameRenderer.h"
-#include "../CGLA/Vec4d.h"
 
 namespace HMesh
 {
@@ -107,12 +105,7 @@ namespace GLGraphics {
 		virtual void compile_display_list(const HMesh::Manifold& m, bool smooth);
 
 		/// Releases the program and shaders.
-		~SimpleShaderRenderer()
-		{
-			glDeleteProgram(prog);
-			glDeleteShader(vs);
-			glDeleteShader(fs);
-		}
+		~SimpleShaderRenderer();
 		
 		/// Do the actual drawing. Simply calls the display list if this function is not overloaded.
 		virtual void draw();
@@ -274,32 +267,6 @@ namespace GLGraphics {
 		LineFieldRenderer(): SimpleShaderRenderer(vss, fss) {}
         void compile_display_list(const HMesh::Manifold& m,HMesh::VertexAttributeVector<CGLA::Vec3d>& lines);
 	};
-    
-//    class HarmonicsRenderer: public GLGraphics::ManifoldRenderer
-//    {
-//        static GLuint prog_P0;
-//        static GLGraphics::Console::variable<float> display_harmonics_time;
-//        static GLGraphics::Console::variable<int> display_harmonics_diffuse;
-//        static GLGraphics::Console::variable<int> display_harmonics_highlight;
-//        static GLGraphics::Console::variable<int> display_harmonics_e0;
-//        static GLGraphics::Console::variable<int> display_harmonics_e1;
-//        
-//        HMesh::Manifold* m;
-//        HMesh::Harmonics* h;
-//        
-//        /// Draw with eigenvalues
-//        void draw_adf();
-//        void draw_esum();
-//        
-//    public:
-//        HarmonicsRenderer(HMesh::Manifold& _m, HMesh::Harmonics* _h, GLGraphics::Console& cs);
-//        
-//        /// Parse keystrokes that would influence the interactive display
-//        void parse_key(unsigned char key);
-//        
-//    };
-
-    
 }
 
 #endif

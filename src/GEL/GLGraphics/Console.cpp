@@ -10,25 +10,19 @@
  * @date   Fri Oct 22 18:36:58 2011
  */
 
-#include "../GLGraphics/Console.h"
-#include "../GL/glew.h"
+#include "Console.h"
 #include <cstdarg>
 #include <cstring> //std::memcpy
 #include <set>
 #include <iostream> //cerr
 #include <iterator> //back_inserter
+#include <algorithm>
 #include <fstream>
-#include <utility> //min
 #include <unistd.h>
 #include <sys/socket.h>
 #include <sys/fcntl.h>
 
-//#define NOMINMAX
-//#include <windows.h>
-#include <algorithm>
-
-#include "../GLGraphics/stb_image.h"
-#include "../GLGraphics/stb_image_write.h"
+#include "stb_image.h"
 
 static const char* history_filename = "history.txt";
 
@@ -40,8 +34,10 @@ using namespace GLGraphics;
 //----------------------------------------------------------------------------
 
 Console::Console() : m_history_index(0), m_caret(0),
-                     m_id_counter(0), m_is_executing(false),
-                     m_font(0)
+                     m_id_counter(0), m_is_executing(false)
+#ifdef ME_CS_WITH_GL
+        ,                     m_font(0)
+#endif
 {
     load_history();
 
@@ -130,6 +126,8 @@ void Console::clear_history()
 
 void Console::display(int scaling)
 {
+    int height = 3, current = 3;
+#ifdef ME_CS_WITH_GL
     if (m_font == 0)
     {
         glGenTextures(1, &m_font);
@@ -155,7 +153,7 @@ void Console::display(int scaling)
     int vp[4];
     glGetIntegerv(GL_VIEWPORT, vp);
     int width = vp[2];
-    int height = vp[3];
+    height = vp[3];
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
@@ -176,8 +174,6 @@ void Console::display(int scaling)
     glColor4f(0.15f, 0.15f, 0.15f, 0.75f);
     glRecti(0, 0, width, height);
 
-    int current = 3;
-
     //draw caret
     if (!m_is_executing)
     {
@@ -194,6 +190,8 @@ void Console::display(int scaling)
     glMatrixMode(GL_MODELVIEW);
     glPopMatrix();
 
+
+#endif
     //draw command line
     if (!m_is_executing)
     {
@@ -223,6 +221,7 @@ void Console::draw_text(int scaling, int cx, int cy,
                         float r, float g, float b,
                         const char* buffer)
 {
+#ifdef ME_CS_WITH_GL
     //save OpenGL state
     glPushAttrib(GL_ENABLE_BIT);
     glPushAttrib(GL_COLOR_BUFFER_BIT);
@@ -295,6 +294,9 @@ void Console::draw_text(int scaling, int cx, int cy,
     glPopAttrib();
     glPopAttrib();
     glPopAttrib();
+#else
+    puts(buffer);
+#endif
 }
 
 void Console::draw_textf(int scaling, int x, int y,

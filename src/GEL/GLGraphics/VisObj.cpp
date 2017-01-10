@@ -9,15 +9,11 @@
 
 #include "VisObj.h"
 
-#include <GLGraphics/Console.h>
-#include <HMesh/Manifold.h>
-#include <HMesh/AttributeVector.h>
+#include <GLGraphics/VariableRegistry.h>
 #include <HMesh/load.h>
 #include <HMesh/curvature.h>
 
 #include <CGLA/Mat3x3d.h>
-#include <CGLA/Vec3d.h>
-#include <CGLA/Vec4d.h>
 
 using namespace std;
 using namespace CGLA;
@@ -126,9 +122,9 @@ namespace GLGraphics {
         
         string short_name = display_method.substr(0,3);
         
-        static Console::variable<int> use_shading(0);
-        static Console::variable<int> use_stripes(0);
-        static Console::variable<int> color_sign(0);
+        static Registry::variable<int> use_shading(0);
+        static Registry::variable<int> use_stripes(0);
+        static Registry::variable<int> color_sign(0);
         if(short_name=="mea"||short_name=="gau"||short_name=="sca")
         {
             use_shading.reg(cs, "display.scalar_field.use_shading", "use shading for scalar field visualization");
@@ -164,9 +160,9 @@ namespace GLGraphics {
         
         
         else if(short_name == "cur"){
-            static Console::variable<string> line_direction("min");
-            static Console::variable<string> method("tensors");
-            static Console::variable<int> smoothing_iter(1);
+            static Registry::variable<string> line_direction("min");
+            static Registry::variable<string> method("tensors");
+            static Registry::variable<int> smoothing_iter(1);
             
             line_direction.reg(cs,"display.curvature_lines.direction", "");
             method.reg(cs, "display.curvature_lines.method", "");
@@ -200,7 +196,7 @@ namespace GLGraphics {
             dynamic_cast<LineFieldRenderer*>(renderer)->compile_display_list(mani, lines);
         }
         else if(short_name == "gau"){
-            static Console::variable<float> smoothing(2.0f);
+            static Registry::variable<float> smoothing(2.0f);
             smoothing.reg(cs, "display.gaussian_curvature_renderer.smoothing", "");
             VertexAttributeVector<double> scalars(mani.allocated_vertices());
             gaussian_curvature_angle_defects(mani, scalars, smoothing);
@@ -215,7 +211,7 @@ namespace GLGraphics {
             
         }
         else if(short_name == "mea"){
-            static Console::variable<int> smoothing(2);
+            static Registry::variable<int> smoothing(2);
             smoothing.reg(cs, "display.mean_curvature_renderer.smoothing", "");
             
             VertexAttributeVector<double> scalars(mani.allocated_vertices());
@@ -231,7 +227,7 @@ namespace GLGraphics {
             dynamic_cast<ScalarFieldRenderer*>(renderer)->compile_display_list(mani, smooth, scalars, min_G, max_G, gamma,use_stripes,color_sign,use_shading);
         }
         else if(short_name == "amb"){
-            static Console::variable<int> smoothing(2);
+            static Registry::variable<int> smoothing(2);
             smoothing.reg(cs, "display.ambient_occlusion_renderer.smoothing", "");
             
             VertexAttributeVector<double> scalars(mani.allocated_vertices());
@@ -247,7 +243,7 @@ namespace GLGraphics {
         }
         else if(short_name == "deb")
         {
-            static Console::variable<float> debug_renderer_ball_radius(0.001);
+            static Registry::variable<float> debug_renderer_ball_radius(0.001);
             debug_renderer_ball_radius.reg(cs, "display.debug_renderer.radius","");
             renderer = new DebugRenderer;
             dynamic_cast<DebugRenderer*>(renderer)->compile_display_list(mani, smooth, debug_renderer_ball_radius);
@@ -367,7 +363,7 @@ namespace GLGraphics {
             draw(graph);
         if(!obb_tree.empty())
         {
-            static Console::variable<int> max_level(1);
+            static Registry::variable<int> max_level(1);
             max_level.reg(cs, "display.obb_tree.max_level", "Maximum level for OBB Tree rendering");
             draw(obb_tree,max_level);
         }

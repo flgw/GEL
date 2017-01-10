@@ -17,12 +17,12 @@
 #include "../Geometry/Graph.h"
 #include "../Geometry/build_bbtree.h"
 #include "../GLGraphics/draw.h"
-#include "../GLGraphics/Console.h"
 #include "../GLGraphics/GLViewController.h"
 #include "../GLGraphics/ManifoldRenderer.h"
-//#include "../HMesh/harmonics.h"
 
 namespace GLGraphics {
+// FWD decl
+class Console;
 
 class VisObj
 {

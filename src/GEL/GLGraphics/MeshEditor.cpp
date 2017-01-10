@@ -11,28 +11,23 @@
 #include <unistd.h>
 #endif
 
-#include <regex>
-
-#include <GL/glew.h>
-#include <functional>
 #include "MeshEditor.h"
-#include <string>
-#include <iostream>
+#include "VisObj.h"
+
+#include <functional>
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <regex>
 
-#include <GLGraphics/Console.h>
-#include <GLGraphics/glsl_shader.h>
-#include <GLGraphics/ShadowBuffer.h>
+#include <GL/glew.h>
+
+#include "glsl_shader.h"
+#include "ShadowBuffer.h"
 
 #include <CGLA/CGLA.h>
-
 #include <HMesh/HMesh.h>
-
 #include <Util/Timer.h>
-
-#include "VisObj.h"
 
 using namespace std;
 using namespace CGLA;
@@ -1841,13 +1836,13 @@ namespace GLGraphics {
         }
         
         // Static variable controlling whether we render shadow at all.
-        static Console::variable<int> shadow_enable(0);
+        static Registry::variable<int> shadow_enable(0);
         shadow_enable.reg(theConsole, "display.shadow.enable", "");
         if(shadow_enable) {
             // Static variables that control the shadow display created and linked to console
-            static Console::variable<float> zenith(1.571);
-            static Console::variable<float> azimuth(0);
-            static Console::variable<float> shadow_alpha(0.3);
+            static Registry::variable<float> zenith(1.571);
+            static Registry::variable<float> azimuth(0);
+            static Registry::variable<float> shadow_alpha(0.3);
             azimuth.reg(theConsole, "display.shadow.azimuth", "");
             zenith.reg(theConsole, "display.shadow.zenith", "");
             shadow_alpha.reg(theConsole, "display.shadow.shadow_alpha", "");

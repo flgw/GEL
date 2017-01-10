@@ -4,18 +4,15 @@
  * For license and list of authors, see ../../doc/intro.pdf
  * ----------------------------------------------------------------------- */
 
+#include <GL/glew.h>
 #include "ManifoldRenderer.h"
 
-#include <algorithm>
-#include <string>
-#include <cstdlib>
-#include "../Geometry/TriMesh.h"
 #include "../CGLA/Mat3x3d.h"
-#include "../GLGraphics/glsl_shader.h"
-#include "../GLGraphics/draw.h"
-#include "../HMesh/Manifold.h"
-#include "../HMesh/AttributeVector.h"
 #include "../HMesh/curvature.h"
+
+#include "../GLGraphics/draw.h"
+#include "glsl_shader.h"
+
 
 using namespace CGLA;
 using namespace HMesh;
@@ -93,7 +90,14 @@ namespace GLGraphics
         else
             glCallList(display_list);
     }
-    
+
+    SimpleShaderRenderer::~SimpleShaderRenderer()
+    {
+        glDeleteProgram(prog);
+        glDeleteShader(vs);
+        glDeleteShader(fs);
+    }
+
     void SimpleShaderRenderer::init_shaders(const std::string& vss, 
                                             const std::string& fss)
     {

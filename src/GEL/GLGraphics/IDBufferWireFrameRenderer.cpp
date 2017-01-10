@@ -4,16 +4,13 @@
  * For license and list of authors, see ../../doc/intro.pdf
  * ----------------------------------------------------------------------- */
 
+#include <GL/glew.h>
 #include "IDBufferWireFrameRenderer.h"
 
 #include "../CGLA/Vec4f.h"
 #include "../CGLA/Vec2f.h"
-#include "../CGLA/Vec3f.h"
-#include "../HMesh/Manifold.h"
-#include "../HMesh/AttributeVector.h"
 
 #include "../GLGraphics/draw.h"
-
 #include "glsl_shader.h"
 
 using namespace std;
@@ -170,7 +167,7 @@ namespace GLGraphics
 {
     IDBufferWireframeRenderer::~IDBufferWireframeRenderer()
     {
-        glDeleteShader(vs);	
+        glDeleteShader(vs);
         glDeleteShader(fs);
         glDeleteProgram(line_prog);
         glDeleteTextures(1, &idmap);

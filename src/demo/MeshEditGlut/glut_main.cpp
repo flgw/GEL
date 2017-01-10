@@ -5,9 +5,6 @@
 //  Created by J. Andreas Bærentzen on 04/10/13.
 //
 //
-
-#include "glut_main.h"
-
 /*
  *  MeshEdit is a small application which allows you to load and edit a mesh.
  *  The mesh will be stored in GEL's half edge based Manifold data structure.
@@ -20,10 +17,6 @@
  */
 
 #include <string>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <queue>
 
 #include <GEL/GL/glew.h>
 #ifdef __APPLE__
@@ -32,37 +25,7 @@
 #include <GL/glut.h>
 #endif
 
-#include <GEL/GLGraphics/Console.h>
 #include <GEL/GLGraphics/MeshEditor.h>
-
-#include <GEL/CGLA/eigensolution.h>
-#include <GEL/CGLA/Vec2d.h>
-#include <GEL/CGLA/Vec3d.h>
-#include <GEL/CGLA/Mat3x3d.h>
-#include <GEL/CGLA/Mat2x2d.h>
-#include <GEL/CGLA/Mat2x3d.h>
-#include <GEL/CGLA/Mat4x4d.h>
-
-#include <GEL/HMesh/Manifold.h>
-#include <GEL/HMesh/AttributeVector.h>
-#include <GEL/HMesh/mesh_optimization.h>
-#include <GEL/HMesh/curvature.h>
-#include <GEL/HMesh/triangulate.h>
-#include <GEL/HMesh/dual.h>
-#include <GEL/HMesh/load.h>
-#include <GEL/HMesh/quadric_simplify.h>
-#include <GEL/HMesh/smooth.h>
-#include <GEL/HMesh/x3d_save.h>
-#include <GEL/HMesh/obj_save.h>
-#include <GEL/HMesh/off_save.h>
-#include <GEL/HMesh/mesh_optimization.h>
-#include <GEL/HMesh/triangulate.h>
-#include <GEL/HMesh/cleanup.h>
-#include <GEL/HMesh/cleanup.h>
-#include <GEL/HMesh/refine_edges.h>
-#include <GEL/HMesh/subdivision.h>
-
-#include <GEL/Util/Timer.h>
 #include <GEL/Util/ArgExtracter.h>
 
 
@@ -80,9 +43,9 @@ void reshape(int W, int H)
     me.reshape(W,H);
 }
 
-Console::variable<string> display_render_mode("normal");
-Console::variable<int> display_smooth_shading(true);
-Console::variable<float> display_gamma(2.2);
+Registry::variable<string> display_render_mode("normal");
+Registry::variable<int> display_smooth_shading(true);
+Registry::variable<float> display_gamma(2.2);
 
 void display()
 {
@@ -162,7 +125,7 @@ void keyboard(unsigned char key, int x, int y)
 void init_glut(int argc, char** argv)
 {
     glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE|GLUT_DEPTH|GLUT_ALPHA);
-    glutInitWindowSize(WINX, WINY);
+    glutInitWindowSize(800, 600);
     glutInit(&argc, argv);
     glutCreateWindow("MeshEdit");
     glutDisplayFunc(display);

@@ -12,14 +12,14 @@
 #include <sstream>
 #include <mutex>
 #include <string>
-#include "../GLGraphics/Console.h"
-#include "../GLGraphics/VisObj.h"
-#include "../GLGraphics/GLViewController.h"
+#include "Console.h"
+#include "VisObj.h"
+#include "GLViewController.h"
+#include "VariableRegistry.h"
 
 
 namespace GLGraphics {
     extern std::mutex parallel_work;
-    
     
     template<typename T>
     T console_arg(const std::vector<std::string> & args, int num, T dflt)
@@ -55,14 +55,14 @@ namespace GLGraphics {
         }
 
         Console theConsole;
-        Console::variable<std::string> brush_type;
-        Console::variable<int> selection_mode;
-        Console::variable<int> active;
-        Console::variable<std::string> display_render_mode;
-        Console::variable<float> brush_size;
-        Console::variable<CGLA::Vec3d> paint_color;
-        Console::variable<int> display_smooth_shading;
-        Console::variable<float> display_gamma;
+        Registry::variable<std::string> brush_type;
+        Registry::variable<int> selection_mode;
+        Registry::variable<int> active;
+        Registry::variable<std::string> display_render_mode;
+        Registry::variable<float> brush_size;
+        Registry::variable<CGLA::Vec3d> paint_color;
+        Registry::variable<int> display_smooth_shading;
+        Registry::variable<float> display_gamma;
 
     public:
         MeshEditor():
