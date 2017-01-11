@@ -299,7 +299,7 @@ private:
 #endif
     static const unsigned char g_png_data[];
     static const size_t g_png_size;
-    
+    // TODO get a better name
     std::string addr = "/tmp/MeshEdit";
     int sck=-1, sck_conn=-1;
 };

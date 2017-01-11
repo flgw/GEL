@@ -81,6 +81,7 @@ namespace GLGraphics {
 
             const command &operator=(const command &);
 
+            // TODO shared_ptr
             Console *m_console;
             Console::cmd_token m_id;
         };
@@ -102,6 +103,13 @@ namespace GLGraphics {
                                      std::bind(&variable::set_value, this, std::placeholders::_1),
                                      help);
                 }
+            }
+
+            void reg(std::shared_ptr<Console> cs,
+                     const std::string &name,
+                     const std::string &help) {
+                // TODO pass shared pointer
+                reg(*cs,name,help);
             }
 
             const variable &operator=(const T &value) {

@@ -161,13 +161,16 @@ void init_gl()
 int main(int argc, char** argv)
 {
     ArgExtracter ae(argc, argv);
-	
+#ifdef ME_CS_WITH_GL
     init_glut(argc, argv);
     init_gl();
     
     me.init();
 	
     glutMainLoop();
+#else
+
+#endif
     return 0;
 }
 
